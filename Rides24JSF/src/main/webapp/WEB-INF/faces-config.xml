@@ -12,14 +12,9 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 			<from-outcome>createRide</from-outcome>
 			<to-view-id>/CreateRide.xhtml</to-view-id>
 		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>InitialPage.xhtml</display-name>
-		<from-view-id>/InitialPage.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>queryRides</from-outcome>
 			<to-view-id>/QueryRides.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-
 </faces-config>
