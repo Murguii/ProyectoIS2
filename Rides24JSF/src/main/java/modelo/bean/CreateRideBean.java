@@ -1,11 +1,15 @@
 package modelo.bean;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named; 
 import domain.Ride;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import org.primefaces.event.SelectEvent;
 
 import domain.Driver;
 
@@ -14,9 +18,9 @@ import domain.Driver;
 public class CreateRideBean  implements Serializable{
 	private String from;
 	private String to;
-	private int nPlaces;
-	private Date date;
-	private float price;
+	private int nPlaces = 0;
+	private Date fecha;
+	private float price = 0;
 	
 	private Driver driver;
 
@@ -44,12 +48,12 @@ public class CreateRideBean  implements Serializable{
 		this.nPlaces = nPlaces;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getFecha() {
+		return fecha;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 
 	public float getPrice() {
@@ -67,6 +71,24 @@ public class CreateRideBean  implements Serializable{
 	public void setDriver(Driver driver) {
 		this.driver = driver;
 	} 
+	
+	public String close() {
+		return "close";
+	}
+	
+	public void validateDate() {
+		 if (fecha != null && fecha.before(new Date())) {
+	            FacesContext.getCurrentInstance().addMessage("fecha", 
+	                new FacesMessage(FacesMessage.SEVERITY_ERROR, "La fecha debe ser posterior a hoy.", null));
+	        }
+	}
+	
+	public void onDateSelect(SelectEvent event) {
+		 System.out.println("OnDateSelect activado");
+		 FacesContext.getCurrentInstance().addMessage("fecha",
+		 new FacesMessage("Fecha escogida: "+event.getObject()));
+		} 
+
 
 	
 }
