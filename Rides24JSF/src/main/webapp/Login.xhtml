@@ -14,14 +14,19 @@
 				<tr>
 					<td>Name:</td>
 					<td>
-						<h:inputText id="name" value="#{login.nombre}"></h:inputText>
+						<h:inputText id="name" value="#{login.nombre}">
+
+						</h:inputText>
 					</td>
+					<td><h:message id="nameMessage" for="name" style="color:red"/></td>	
 				</tr>
 				<tr>
 					<td>Password:</td>
 					<td>
-						<h:inputSecret id="password" value="#{login.password}"></h:inputSecret>
+						<h:inputSecret id="password" value="#{login.password}">
+						</h:inputSecret>
 					</td>
+					<td><h:message id="passwordMessage" for="password" style="color:red"/></td>	
 				</tr>
 			</table>
 			<p>

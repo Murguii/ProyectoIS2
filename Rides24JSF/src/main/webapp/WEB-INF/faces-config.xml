@@ -7,7 +7,7 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 
 	<navigation-rule>
 		<display-name>InitialPage.xhtml</display-name>
-		<from-view-id>/InitialPage.xhtml.xhtml</from-view-id>
+		<from-view-id>/InitialPage.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>login</from-outcome>
 			<to-view-id>/Login.xhtml</to-view-id>

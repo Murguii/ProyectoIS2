@@ -5,7 +5,7 @@ import java.io.Serializable;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named; 
 
-@Named("optionsPage")
+@Named("initalPage")
 @SessionScoped
 public class InitialPageBean  implements Serializable{
 	
