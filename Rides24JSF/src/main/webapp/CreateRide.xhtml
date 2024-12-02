@@ -54,11 +54,11 @@
 				<tr>
 					<td>Fecha:</td>
 					<td>
-						<p:calendar id="fecha" value="#{createRide.fecha}" navigator="true" pattern="dd/MM/yyyy" showOn="button">
+						<p:calendar id="calendario" value="#{createRide.fecha}" navigator="true" pattern="dd/MM/yyyy" showOn="button">
 							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateMessage"></p:ajax>
 						</p:calendar>	
 					</td>
-					<td><h:message id="dateMessage" for="fecha" style="color:red"/></td>
+					<td><h:message id="dateMessage" for="calendario" style="color:red"/></td>
 				</tr>
 			</table>
 			<p>

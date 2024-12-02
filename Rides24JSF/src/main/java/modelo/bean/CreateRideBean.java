@@ -5,12 +5,15 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named; 
 import domain.Ride;
+import exceptions.RideAlreadyExistException;
+import exceptions.RideMustBeLaterThanTodayException;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import org.primefaces.event.SelectEvent;
 
+import businessLogic.BLFacade;
 import domain.Driver;
 
 @Named("createRide")
@@ -21,8 +24,11 @@ public class CreateRideBean  implements Serializable{
 	private int nPlaces = 0;
 	private Date fecha;
 	private float price = 0;
-	
 	private Driver driver;
+	
+	//private Driver driver = new Driver("driver3@gmail.com","Test Driver");
+	
+	//private static BLFacade appFacadeInterface;
 
 	public String getFrom() {
 		return from;
@@ -78,17 +84,37 @@ public class CreateRideBean  implements Serializable{
 	
 	public void validateDate() {
 		 if (fecha != null && fecha.before(new Date())) {
-	            FacesContext.getCurrentInstance().addMessage("fecha", 
-	                new FacesMessage(FacesMessage.SEVERITY_ERROR, "La fecha debe ser posterior a hoy.", null));
+			 FacesContext context = FacesContext.getCurrentInstance();
+			 context.addMessage("form:fecha", new FacesMessage(FacesMessage.SEVERITY_ERROR, "La fecha debe ser posterior a hoy.", null));
 	        }
 	}
 	
+	
 	public void onDateSelect(SelectEvent event) {
-		 System.out.println("OnDateSelect activado");
-		 FacesContext.getCurrentInstance().addMessage("fecha",
-		 new FacesMessage("Fecha escogida: "+event.getObject()));
+		System.out.println(event.getObject());
+		event.getFacesContext().addMessage("calendario",
+				 new FacesMessage("Fecha escogida: "+event.getObject()));
+		/*FacesContext.getCurrentInstance().addMessage("calendario",
+				 new FacesMessage("Fecha escogida: "+event.getObject()));
+				 */
 		} 
 
+	/*
+	public String createRide() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		try {
+			BLFacade facade = appFacadeInterface;
+			Ride r = facade.createRide(from, to, fecha, nPlaces, price, driver.getEmail());
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ride creado exitosamente", null));
+			return "ok";
+		} catch (RideMustBeLaterThanTodayException e1) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e1.getMessage(), null));
+			return "error";
+		} catch (RideAlreadyExistException e1) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e1.getMessage(), null));
+			return "error";
+		}
 
-	
+	}
+	*/
 }
