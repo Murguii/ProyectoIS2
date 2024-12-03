@@ -13,5 +13,5 @@ public class InitialPageBean  implements Serializable{
 	
 	public String createRideButton() {return "createRide";}
 	
-	public String queryRideButton() {return "queryRide";}
+	public String queryRideButton() {return "queryRides";}
 }

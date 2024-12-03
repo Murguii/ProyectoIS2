@@ -26,4 +26,12 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 			<to-view-id>/InitialPage.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<display-name>/QueryRides.xhtml</display-name>
+		<from-view-id>/QueryRides.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>close</from-outcome>
+			<to-view-id>/InitialPage.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>
