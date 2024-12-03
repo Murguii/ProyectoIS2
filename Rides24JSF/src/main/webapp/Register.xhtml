@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<f:view>
+	<h:head>
+		<title>Register</title>
+	</h:head>
+	<h:body>
+		<h:form>
+			<table>
+				<tr>
+					<td>Name:</td>
+					<td>
+						<h:inputText id="name" value="#{register.nombre}">
+
+						</h:inputText>
+					</td>
+					<td><h:message id="nameMessage" for="name" style="color:red"/></td>	
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td>
+						<h:inputSecret id="password" value="#{register.password}">
+						</h:inputSecret>
+					</td>
+					<td><h:message id="passwordMessage" for="password" style="color:red"/></td>	
+				</tr>
+			</table>
+			<p>
+				<h:commandButton value="Register" action="#{register.doRegister}" />
+				<h:commandButton value="Close" action="#{register.close}" immediate="true" />
+			</p>
+		</h:form>
+	</h:body>
+</f:view>
+</html>
