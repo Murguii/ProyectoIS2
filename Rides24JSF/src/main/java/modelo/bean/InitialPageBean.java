@@ -1,3 +1,4 @@
+
 package modelo.bean;
 
 import java.io.Serializable;
@@ -14,4 +15,9 @@ public class InitialPageBean  implements Serializable{
 	public String createRideButton() {return "createRide";}
 	
 	public String queryRideButton() {return "queryRides";}
+	
+	public String loginButton() {return "login";}
+	
+	public String registerButton() {return "register";}
 }
+

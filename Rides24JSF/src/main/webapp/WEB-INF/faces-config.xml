@@ -9,6 +9,19 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 		<display-name>InitialPage.xhtml</display-name>
 		<from-view-id>/InitialPage.xhtml</from-view-id>
 		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/Login.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>register</from-outcome>
+			<to-view-id>/Register.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<display-name>OptionsPage.xhtml</display-name>
+		<from-view-id>/OptionsPage.xhtml</from-view-id>
+		<navigation-case>
 			<from-outcome>createRide</from-outcome>
 			<to-view-id>/CreateRide.xhtml</to-view-id>
 		</navigation-case>
@@ -23,7 +36,7 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 		<from-view-id>/CreateRide.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>close</from-outcome>
-			<to-view-id>/InitialPage.xhtml</to-view-id>
+			<to-view-id>/OptionsPage.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
