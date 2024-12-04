@@ -34,8 +34,8 @@
 				<tr>
 					<td>Number of seats:</td>
 					<td>
-						<h:inputText id="numberSeats" value="#{createRide.nPlaces}" validatorMessage="Solo se admiten números enteros positivos">
-							<f:validateLongRange minimum="1"/>
+						<h:inputText id="numberSeats" value="#{createRide.nPlaces}" validatorMessage="Solo se admiten números enteros positivos (máx.60)">
+							<f:validateLongRange minimum="1" maximum="60"/>
 							<f:ajax execute="numberSeats" render="numberSeatsMessage"/>
 						</h:inputText>
 					</td>
@@ -44,8 +44,8 @@
 				<tr>
 					<td>Price:</td>
 					<td>
-						<h:inputText id="price" value="#{createRide.price}"  validatorMessage="Solo se admiten números positivos">
-							<f:validateDoubleRange minimum="0.01" />
+						<h:inputText id="price" value="#{createRide.price}"  validatorMessage="Solo se admiten números positivos (pero dentro del sentido común, tampoco 1000€)">
+							<f:validateDoubleRange minimum="0.01" maximum="50"/>
 							<f:ajax execute="price" render="priceMessage"/>
 						</h:inputText>
 					</td>
@@ -55,10 +55,15 @@
 					<td>Fecha:</td>
 					<td>
 						<p:calendar id="calendario" value="#{createRide.fecha}" navigator="true" pattern="dd/MM/yyyy" showOn="button">
-							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateMessage"></p:ajax>
+							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateLabel"></p:ajax>
+							 <p:ajax event="dateSelect" listener="#{createRide.validateDate}" update="errorMessage"/>
 						</p:calendar>	
 					</td>
-					<td><h:message id="dateMessage" for="calendario" style="color:red"/></td>
+					
+					<td>
+					<h:outputText id="errorMessage" for="calendario" value="#{createRide.error != null ? createRide.error : createRide.fecha}" style="color:red"/>
+					<!--h:outputLabel id="dateLabel" for="calendario" value="#{createRide.fecha}"/-->`
+					</td>
 				</tr>
 			</table>
 			<p>

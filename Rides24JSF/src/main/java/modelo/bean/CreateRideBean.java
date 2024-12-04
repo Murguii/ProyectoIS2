@@ -25,6 +25,7 @@ public class CreateRideBean  implements Serializable{
 	private Date fecha;
 	private float price = 0;
 	private Driver driver;
+	private String error = null;
 	
 	//private Driver driver = new Driver("driver3@gmail.com","Test Driver");
 	
@@ -78,15 +79,25 @@ public class CreateRideBean  implements Serializable{
 		this.driver = driver;
 	} 
 	
+	public String getError() {
+		return error;
+	}
+	
+	public void setError(String error) {
+		this.error = error;
+	}
+	
 	public String close() {
 		return "close";
 	}
 	
 	public void validateDate() {
 		 if (fecha != null && fecha.before(new Date())) {
-			 FacesContext context = FacesContext.getCurrentInstance();
-			 context.addMessage("form:fecha", new FacesMessage(FacesMessage.SEVERITY_ERROR, "La fecha debe ser posterior a hoy.", null));
-	        }
+			 /*FacesContext context = FacesContext.getCurrentInstance();
+			 context.addMessage("form:fecha", new FacesMessage(FacesMessage.SEVERITY_ERROR, "La fecha debe ser posterior a hoy.", null));*/
+	        error = "La fecha es anterior a hoy, los viajes en el tiempo aún no existen sabes?";
+		 }
+		 
 	}
 	
 	

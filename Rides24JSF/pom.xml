@@ -12,9 +12,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<jakarta.faces.version>4.0.1</jakarta.faces.version> 
-	 </properties> 
-	 
+		<jakarta.faces.version>4.0.1</jakarta.faces.version>
+	</properties>
+
 	<dependencies>
 		<!-- JSF API -->
 		<dependency>
@@ -40,6 +40,7 @@
 			<version>5.1.0.Final</version>   
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jboss/jandex -->
+
 <dependency>
     <groupId>org.jboss</groupId>
     <artifactId>jandex</artifactId>
@@ -47,12 +48,13 @@
 </dependency>
 
 
+
 		<dependency>
 			<groupId>jakarta.inject</groupId>
 			<artifactId>jakarta.inject-api</artifactId>
 			<version>2.0.1</version>
 		</dependency>
-		 <dependency>
+		<dependency>
 			<groupId>1.0</groupId>
 			<artifactId>Rides24</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -64,7 +66,7 @@
 			<version>12.0.0</version>
 			<classifier>jakarta</classifier>
 		</dependency>
-		 <dependency>
+		<dependency>
 			<groupId>org.omnifaces</groupId>
 			<artifactId>omnifaces</artifactId>
 			<version>4.0.1</version>
@@ -121,7 +123,7 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
- </plugin>
+			</plugin>
 		</plugins>
 	</build>
 </project>
