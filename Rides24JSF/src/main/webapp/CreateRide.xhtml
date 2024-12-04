@@ -56,9 +56,14 @@
 					<td>
 						<p:calendar id="calendario" value="#{createRide.fecha}" navigator="true" pattern="dd/MM/yyyy" showOn="button">
 							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateLabel"></p:ajax>
+							 <p:ajax event="dateSelect" listener="#{createRide.validateDate}" update="errorMessage"/>
 						</p:calendar>	
 					</td>
-					<td><h:outputLabel id="dateLabel" for="calendario" value="#{createRide.fecha}"/></td>
+					
+					<td>
+					<h:outputText id="errorMessage" for="calendario" value="#{createRide.error != null ? createRide.error : createRide.fecha}" style="color:red"/>
+					<!--h:outputLabel id="dateLabel" for="calendario" value="#{createRide.fecha}"/-->`
+					</td>
 				</tr>
 			</table>
 			<p>
