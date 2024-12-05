@@ -1,5 +1,6 @@
 package principal;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -109,5 +110,38 @@ public class HibernateDataAccess {
 			em.close();
 		}
 	}
-
+	
+	public List<String> getDepartCities() {
+		EntityManager em = JPAUtil.getEntityManager();
+		try {
+			em.getTransaction().begin();
+			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
+			return q.getResultList();
+		} catch (Exception e) {
+		if (em.getTransaction().isActive()) {
+			em.getTransaction().rollback();
+		}
+		throw e;
+	} finally {
+		em.close();
+	}
+	}
+	
+	public List<String> getArrivalCities(String from) {
+		EntityManager em = JPAUtil.getEntityManager();
+		try {
+			em.getTransaction().begin();
+			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.to FROM Ride r WHERE r.from =:f ORDER BY r.to", String.class);
+			q.setParameter("f", from);
+			return q.getResultList();
+		} catch (Exception e) {
+		if (em.getTransaction().isActive()) {
+			em.getTransaction().rollback();
+		}
+		throw e;
+	} finally {
+		em.close();
+	}
+	}
+	
 }

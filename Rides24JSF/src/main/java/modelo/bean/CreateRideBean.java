@@ -105,8 +105,7 @@ public class CreateRideBean  implements Serializable{
 			 /*FacesContext context = FacesContext.getCurrentInstance();
 			 context.addMessage("form:fecha", new FacesMessage(FacesMessage.SEVERITY_ERROR, "La fecha debe ser posterior a hoy.", null));*/
 	        error = "La fecha es anterior a hoy, los viajes en el tiempo aún no existen sabes?";
-		 }
-		 
+		 }		 
 	}
 	
 	
