@@ -40,7 +40,9 @@ public class RegisterBean implements Serializable{
 		Driver d = hda.getDriver(email, password);
 		if (d==null) {
 			try {
+				System.out.println("Entra aqui");
 				hda.storeDriver(email, name, password);
+				System.out.println("Sale aqui");
 				return "ok";
 			} catch(Exception e) {
 				//mensaje de error

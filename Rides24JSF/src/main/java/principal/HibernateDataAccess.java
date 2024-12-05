@@ -19,20 +19,27 @@ public class HibernateDataAccess {
 
 	public void storeDriver(String email, String name, String password) { // register
 		 EntityManager em = JPAUtil.getEntityManager();
+		 System.out.println("EntityManager: " + em);
 		try {
+			System.out.println("Antes del transaction begin");
 			em.getTransaction().begin();
-
+			System.out.println("Despues del transaction begin");
 			Driver d = new Driver();
 			d.setEmail(email);
 			d.setName(name);
 			d.setPassword(password);
+			System.out.println("Objeto driver: " + d);
+			System.out.println("Antes del persist");
 			em.persist(d);
+			System.out.println("Despues del persist");
 
 			em.getTransaction().commit();
+			System.out.println("Despues del commit");
 		} catch (Exception e) {
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
 			}
+			e.printStackTrace();
 			throw e;
 		} finally {
 			em.close();
