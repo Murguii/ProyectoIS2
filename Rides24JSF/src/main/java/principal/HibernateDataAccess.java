@@ -43,10 +43,16 @@ public class HibernateDataAccess {
 		 EntityManager em = JPAUtil.getEntityManager();
 		try {
 			em.getTransaction().begin();
-			TypedQuery<Driver> d = em.createNamedQuery("SELECT d FROM Driver d WHERE d.email =:email AND d.password =:password", Driver.class);
+			TypedQuery<Driver> d = em.createQuery("SELECT d FROM Driver d WHERE d.email =:email AND d.password =:password", Driver.class);
 			d.setParameter("email", email);
 			d.setParameter("password", password);
-			return d.getSingleResult();
+			//return d.getSingleResult();
+			List<Driver> result = d.getResultList();
+	        if (result.isEmpty()) {
+	            return null;
+	        } else {
+	            return result.get(0);
+	        }
 		} catch (Exception e) {
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
