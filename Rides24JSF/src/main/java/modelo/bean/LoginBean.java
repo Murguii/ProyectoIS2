@@ -2,6 +2,8 @@ package modelo.bean;
 import java.io.Serializable;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import modelo.dominio.Driver;
+import principal.HibernateDataAccess;
 
 @Named("login")
 @SessionScoped
@@ -9,14 +11,14 @@ public class LoginBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private String nombre;
+	private String email;
 	private String password;
-	
-	public String getNombre() {
-		return nombre;
+		
+	public String getEmail() {
+		return email;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getPassword() {
 		return password;
@@ -26,7 +28,17 @@ public class LoginBean implements Serializable{
 	}
 	
 	public String doLogin() {
-		return "cambiar";
+		HibernateDataAccess hda = new HibernateDataAccess();
+		Driver d = hda.getDriver(email, password);
+		if (d != null) {
+			return "ok";
+		}
+		else {
+			//mensaje de error de que no existe usuario con esos datos
+			
+			return "error";
+		}
+		
 	}
 	
 	public String close() {

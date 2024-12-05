@@ -18,6 +18,7 @@ public class Driver implements Serializable{
 	@Id
 	private String email;
 	private String name; 
+	private String password;
 	 @OneToMany(fetch=FetchType.EAGER)
 	private List<Ride> rides=new Vector<Ride>();
 	
@@ -47,9 +48,15 @@ public class Driver implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
 
-	
-	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String toString(){
 		return email+";"+name+rides;
 	}

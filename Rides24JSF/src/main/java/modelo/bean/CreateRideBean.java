@@ -1,9 +1,13 @@
 package modelo.bean;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named; 
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import principal.HibernateDataAccess;
 import domain.Ride;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
@@ -14,11 +18,12 @@ import java.util.Date;
 import org.primefaces.event.SelectEvent;
 
 import businessLogic.BLFacade;
-import domain.Driver;
+import modelo.dominio.*;
 
 @Named("createRide")
 @SessionScoped
 public class CreateRideBean  implements Serializable{
+	
 	private String from;
 	private String to;
 	private int nPlaces = 0;
@@ -27,10 +32,14 @@ public class CreateRideBean  implements Serializable{
 	private Driver driver;
 	private String error = null;
 	
-	//private Driver driver = new Driver("driver3@gmail.com","Test Driver");
+	@Inject
+    private LoginBean loginBean;
 	
-	//private static BLFacade appFacadeInterface;
-
+	 @PostConstruct
+	    public void init() {
+		 initializeDriver();
+	    }
+	
 	public String getFrom() {
 		return from;
 	}
@@ -109,23 +118,33 @@ public class CreateRideBean  implements Serializable{
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
 				 */
 		} 
+	
+	public void initializeDriver() {
+        HibernateDataAccess hda = new HibernateDataAccess();
+        String email = loginBean.getEmail();
+        String password = loginBean.getPassword();
+        Driver d = hda.getDriver(email, password);
+        if (d != null) {
+            this.driver = d;
+        } else {
+            //no existe driver
+        }
+    }
 
-	/*
+	
 	public String createRide() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			BLFacade facade = appFacadeInterface;
-			Ride r = facade.createRide(from, to, fecha, nPlaces, price, driver.getEmail());
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ride creado exitosamente", null));
-			return "ok";
-		} catch (RideMustBeLaterThanTodayException e1) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e1.getMessage(), null));
-			return "error";
-		} catch (RideAlreadyExistException e1) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e1.getMessage(), null));
+			HibernateDataAccess hda = new HibernateDataAccess();
+			 String email = loginBean.getEmail();
+			 hda.storeRide(from, to, fecha, nPlaces, price, email);
+			 //mensaje diciendo que se ha creado el ride
+			 return "ok";
+		} catch (Exception e){
+			//mensaje indicando error
 			return "error";
 		}
+		 
 
 	}
-	*/
+	
 }
