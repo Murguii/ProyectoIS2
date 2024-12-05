@@ -14,7 +14,7 @@
 				<tr>
 					<td>Depart City:</td>
 					<td>
-						<h:inputText id="departCity" value="#{createRide.from}" validatorMessage="Solo se admiten letras">
+						<h:inputText id="departCity" value="#{createRide.departCity}" validatorMessage="Solo se admiten letras">
 							<f:validateRegex pattern="^[a-zA-Z]+$"/>
 							<f:ajax execute="departCity" render="departCityMessage"/> 
 						</h:inputText>
@@ -24,7 +24,7 @@
 				<tr>
 					<td>Arrival City:</td>
 					<td>
-						<h:inputText id="arrivalCity" value="#{createRide.to}" validatorMessage="Solo se admiten letras">
+						<h:inputText id="arrivalCity" value="#{createRide.arrivalCity}" validatorMessage="Solo se admiten letras">
 							<f:validateRegex pattern="^[a-zA-Z]+$"/>
 							<f:ajax execute="departCity" render="arrivalCityMessage"/>
 						</h:inputText>
