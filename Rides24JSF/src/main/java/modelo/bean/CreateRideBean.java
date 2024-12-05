@@ -24,8 +24,8 @@ import modelo.dominio.*;
 @SessionScoped
 public class CreateRideBean  implements Serializable{
 	
-	private String from;
-	private String to;
+	private String departCity;
+	private String arrivalCity;
 	private int nPlaces = 0;
 	private Date fecha;
 	private float price = 0;
@@ -40,20 +40,20 @@ public class CreateRideBean  implements Serializable{
 		 initializeDriver();
 	    }
 	
-	public String getFrom() {
-		return from;
+	public String getDepartCity() {
+		return departCity;
 	}
 
-	public void setFrom(String from) {
-		this.from = from;
+	public void setDepartCity(String departCity) {
+		this.departCity = departCity;
 	}
 
-	public String getTo() {
-		return to;
+	public String getArrivalCity() {
+		return arrivalCity;
 	}
 
-	public void setTo(String to) {
-		this.to = to;
+	public void setArrivalCity(String arrivalCity) {
+		this.arrivalCity = arrivalCity;
 	}
 
 	public int getnPlaces() {
@@ -135,7 +135,7 @@ public class CreateRideBean  implements Serializable{
 		try {
 			HibernateDataAccess hda = new HibernateDataAccess();
 			 String email = loginBean.getEmail();
-			 hda.storeRide(from, to, fecha, nPlaces, price, email);
+			 hda.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
 			 //mensaje diciendo que se ha creado el ride
 			 return "ok";
 		} catch (Exception e){
