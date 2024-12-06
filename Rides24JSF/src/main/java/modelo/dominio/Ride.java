@@ -3,6 +3,7 @@ package modelo.dominio;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class Ride implements Serializable{
 	private Date date;
 	private float price;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=Driver.class, cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	private Driver driver;
 	
 	public Ride(){

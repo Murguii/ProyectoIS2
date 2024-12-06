@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf17328950943820" configfile="/Rides24JSF/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="OptionsPage.xhtml" x="338" y="562" id="pf17328951570941" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" outlinks="pf17331543667510 pf17331543667521" inlinks="pf17331543667522 pf17332486274220 pf17333068916230" path="/OptionsPage.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="CreateRide.xhtml" x="122" y="178" id="pf17328951570954" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf17331543667522" inlinks="pf17331543667510" path="/CreateRide.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="OptionsPage.xhtml" x="338" y="562" id="pf17328951570941" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" outlinks="pf17331543667510 pf17331543667521" inlinks="pf17331543667522 pf17332486274220 pf17333068916230 pf17334808024020" path="/OptionsPage.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="CreateRide.xhtml" x="122" y="178" id="pf17328951570954" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf17331543667522 pf17334808024020" inlinks="pf17331543667510" path="/CreateRide.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="/QueryRides.xhtml" x="122" y="562" id="pf17331543667523" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf17333068916230" inlinks="pf17331543667521" path="/QueryRides.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="InitialPage.xhtml" x="122" y="946" id="pf17331642831070" referenceLink="//@navigationRule.0/@fromViewId|" path="/InitialPage.xhtml.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="/Login.xhtml" x="122" y="1330" id="pf17331642831073" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" outlinks="pf17332486274220 pf17333068916231" inlinks="pf17332406163390 pf17334191868770" path="/Login.xhtml"/>
@@ -17,4 +17,5 @@
   <links id="pf17333068916233" target="pf17332406163402" source="pf17331642831074" outcome="close"/>
   <links id="pf17333068916230" target="pf17328951570941" source="pf17331543667523" outcome="close"/>
   <links id="pf17334191868770" target="pf17331642831073" source="pf17331642831074" outcome="ok"/>
+  <links id="pf17334808024020" target="pf17328951570941" source="pf17328951570954" outcome="ok"/>
 </pageflow:Pageflow>

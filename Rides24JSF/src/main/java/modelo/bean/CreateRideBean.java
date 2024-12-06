@@ -36,9 +36,9 @@ public class CreateRideBean  implements Serializable{
     private LoginBean loginBean;
 	
 	 @PostConstruct
-	    public void init() {
+	 public void init() {
 		 initializeDriver();
-	    }
+	  }
 	
 	public String getDepartCity() {
 		return departCity;
@@ -137,8 +137,10 @@ public class CreateRideBean  implements Serializable{
 			 String email = loginBean.getEmail();
 			 hda.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
 			 //mensaje diciendo que se ha creado el ride
+			 FacesContext.getCurrentInstance().addMessage("confirmed", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
 			 return "ok";
 		} catch (Exception e){
+			e.printStackTrace();
 			//mensaje indicando error
 			return "error";
 		}

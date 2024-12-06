@@ -81,6 +81,10 @@ public class HibernateDataAccess {
 			
 			Driver d = em.find(Driver.class, driverEmail);
 			
+			if (d == null) {
+	            throw new IllegalArgumentException("Driver not found with email: " + driverEmail);
+			}
+			
 			if (d.doesRideExists(from, to, date)) {
 				em.getTransaction().commit();
 				throw new RideAlreadyExistException();
@@ -93,6 +97,7 @@ public class HibernateDataAccess {
 			//em.persist(ride);
 			em.getTransaction().commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
 			}
@@ -115,6 +120,7 @@ public class HibernateDataAccess {
 			List<Ride> result = q.getResultList();
 			return result;
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
 			}
@@ -131,6 +137,7 @@ public class HibernateDataAccess {
 			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
 			return q.getResultList();
 		} catch (Exception e) {
+			e.printStackTrace();
 		if (em.getTransaction().isActive()) {
 			em.getTransaction().rollback();
 		}
@@ -148,6 +155,7 @@ public class HibernateDataAccess {
 			q.setParameter("f", from);
 			return q.getResultList();
 		} catch (Exception e) {
+			e.printStackTrace();
 		if (em.getTransaction().isActive()) {
 			em.getTransaction().rollback();
 		}

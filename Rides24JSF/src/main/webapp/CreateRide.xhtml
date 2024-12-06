@@ -55,7 +55,7 @@
 					<td>Fecha:</td>
 					<td>
 						<p:calendar id="calendario" value="#{createRide.fecha}" navigator="true" pattern="dd/MM/yyyy" showOn="button">
-							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateLabel"></p:ajax>
+							 <!-- <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateLabel"></p:ajax> -->
 							 <p:ajax event="dateSelect" listener="#{createRide.validateDate}" update="errorMessage"/>
 						</p:calendar>	
 					</td>
@@ -69,6 +69,7 @@
 			<p>
 				<h:commandButton value="Create ride" action="#{createRide.createRide}" />
 				<h:commandButton value="Close" action="#{createRide.close}" immediate="true" />
+				<h:message id="confirmed" style="color:green"></h:message>
 			</p>
 		</h:form>
 	</h:body>

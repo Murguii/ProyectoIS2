@@ -1,10 +1,12 @@
 package modelo.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -19,8 +21,8 @@ public class Driver implements Serializable{
 	private String email;
 	private String name; 
 	private String password;
-	 @OneToMany(fetch=FetchType.EAGER)
-	private List<Ride> rides=new Vector<Ride>();
+	 @OneToMany(targetEntity=Ride.class, cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+	private List<Ride> rides=new ArrayList<Ride>();
 	
 	
 	public Driver() {
