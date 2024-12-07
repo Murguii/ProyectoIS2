@@ -106,8 +106,10 @@ public class CreateRideBean  implements Serializable{
 			 /*FacesContext context = FacesContext.getCurrentInstance();
 			 context.addMessage("form:fecha", new FacesMessage(FacesMessage.SEVERITY_ERROR, "La fecha debe ser posterior a hoy.", null));*/
 	        error = "La fecha es anterior a hoy, los viajes en el tiempo aún no existen sabes?";
-		 }		 
-	}
+		 }else {error = null;}
+		 
+	}		 
+	
 	
 	
 	public void onDateSelect(SelectEvent event) {
@@ -119,6 +121,13 @@ public class CreateRideBean  implements Serializable{
 				 */
 		} 
 	
+	public boolean validateForm() {
+		if(fecha == null || departCity == null || arrivalCity==null || nPlaces == 0 || price == 0.0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public void initializeDriver() {
         String email = loginBean.getEmail();
         String password = loginBean.getPassword();
@@ -129,6 +138,7 @@ public class CreateRideBean  implements Serializable{
             //no existe driver
         }
     }
+
 
 	
 	public String createRide() {
