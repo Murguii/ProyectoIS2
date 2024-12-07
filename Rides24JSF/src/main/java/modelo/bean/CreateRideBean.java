@@ -8,7 +8,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import principal.HibernateDataAccess;
-import domain.Ride;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 
@@ -17,7 +16,8 @@ import java.util.Date;
 
 import org.primefaces.event.SelectEvent;
 
-import businessLogic.BLFacade;
+import principal.BLFacade;
+import principal.BLFacadeImplementation;
 import modelo.dominio.*;
 
 @Named("createRide")
@@ -31,6 +31,7 @@ public class CreateRideBean  implements Serializable{
 	private float price = 0;
 	private Driver driver;
 	private String error = null;
+	BLFacade facade = new BLFacadeImplementation();
 	
 	@Inject
     private LoginBean loginBean;
@@ -119,10 +120,9 @@ public class CreateRideBean  implements Serializable{
 		} 
 	
 	public void initializeDriver() {
-        HibernateDataAccess hda = new HibernateDataAccess();
         String email = loginBean.getEmail();
         String password = loginBean.getPassword();
-        Driver d = hda.getDriver(email, password);
+        Driver d = facade.getDriver(email, password);
         if (d != null) {
             this.driver = d;
         } else {
@@ -133,9 +133,8 @@ public class CreateRideBean  implements Serializable{
 	
 	public String createRide() {
 		try {
-			HibernateDataAccess hda = new HibernateDataAccess();
 			 String email = loginBean.getEmail();
-			 hda.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
+			 facade.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
 			 //mensaje diciendo que se ha creado el ride
 			 FacesContext.getCurrentInstance().addMessage("confirmed", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
 			 return "ok";

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import configuration.UtilDate;
 import modelo.dominio.*;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
@@ -17,30 +18,24 @@ public class HibernateDataAccess {
 
 	public HibernateDataAccess() {}
 
-	public void storeDriver(String email, String name, String password) { // register
+	public Driver storeDriver(String email, String name, String password) { // register
 		 EntityManager em = JPAUtil.getEntityManager();
-		 System.out.println("EntityManager: " + em);
 		try {
-			System.out.println("Antes del transaction begin");
 			em.getTransaction().begin();
-			System.out.println("Despues del transaction begin");
 			Driver d = new Driver();
 			d.setEmail(email);
 			d.setName(name);
 			d.setPassword(password);
-			System.out.println("Objeto driver: " + d);
-			System.out.println("Antes del persist");
 			em.persist(d);
-			System.out.println("Despues del persist");
 
 			em.getTransaction().commit();
-			System.out.println("Despues del commit");
+			return d;
 		} catch (Exception e) {
 			if (em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
 			}
 			e.printStackTrace();
-			throw e;
+			return null;
 		} finally {
 			em.close();
 		}
@@ -70,7 +65,7 @@ public class HibernateDataAccess {
 		}
 	}
 
-	public void storeRide(String from, String to, Date date, int nPlaces, float price, String driverEmail)
+	public Ride storeRide(String from, String to, Date date, int nPlaces, float price, String driverEmail)
 			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {// createRide
 		 EntityManager em = JPAUtil.getEntityManager();
 		try {
@@ -96,6 +91,7 @@ public class HibernateDataAccess {
 			
 			//em.persist(ride);
 			em.getTransaction().commit();
+			return ride;
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (em.getTransaction().isActive()) {
@@ -163,6 +159,44 @@ public class HibernateDataAccess {
 	} finally {
 		em.close();
 	}
+	}
+	
+	public List<Date> getThisMonthDatesWithRides(String from, String to, Date date) {
+		EntityManager em = JPAUtil.getEntityManager();
+		System.out.println(">> DataAccess: getEventsMonth");
+		List<Date> res = new ArrayList<>();	
+		
+		Date firstDayMonthDate= UtilDate.firstDayMonth(date);
+		Date lastDayMonthDate= UtilDate.lastDayMonth(date);
+		try {		
+		em.getTransaction().begin();
+		TypedQuery<Date> query = em.createQuery("SELECT DISTINCT r.date FROM Ride r WHERE r.from=?1 AND r.to=?2 AND r.date BETWEEN ?3 and ?4",Date.class);   
+		
+		query.setParameter(1, from);
+		query.setParameter(2, to);
+		query.setParameter(3, firstDayMonthDate);
+		query.setParameter(4, lastDayMonthDate);
+		List<Date> dates = query.getResultList();
+	 	 for (Date d:dates){
+		   res.add(d);
+		  }
+	 	return res;
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+			throw e;
+			
+		} finally {
+			em.close();
+		}
+	}
+	
+	public void close(){
+		EntityManager em = JPAUtil.getEntityManager();
+		em.close();
+		System.out.println("DataAcess closed");
 	}
 	
 }

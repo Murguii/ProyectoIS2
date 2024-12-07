@@ -3,6 +3,8 @@ import java.io.Serializable;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import modelo.dominio.Driver;
+import principal.BLFacade;
+import principal.BLFacadeImplementation;
 import principal.HibernateDataAccess;
 
 @Named("register")
@@ -14,6 +16,7 @@ public class RegisterBean implements Serializable{
 	private String name;
 	private String email;
 	private String password;
+	BLFacade facade = new BLFacadeImplementation();
 	
 	public String getName() {
 		return name;
@@ -36,12 +39,11 @@ public class RegisterBean implements Serializable{
 	}
 	
 	public String doRegister() {
-		HibernateDataAccess hda = new HibernateDataAccess();
-		Driver d = hda.getDriver(email, password);
+		Driver d = facade.getDriver(email, password);
 		if (d==null) {
 			try {
 				System.out.println("Entra aqui");
-				hda.storeDriver(email, name, password);
+				facade.storeDriver(email, name, password);
 				System.out.println("Sale aqui");
 				return "ok";
 			} catch(Exception e) {

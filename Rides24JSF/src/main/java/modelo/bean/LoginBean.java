@@ -3,6 +3,8 @@ import java.io.Serializable;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import modelo.dominio.Driver;
+import principal.BLFacade;
+import principal.BLFacadeImplementation;
 import principal.HibernateDataAccess;
 
 @Named("login")
@@ -13,6 +15,7 @@ public class LoginBean implements Serializable{
 
 	private String email;
 	private String password;
+	BLFacade facade = new BLFacadeImplementation();
 		
 	public String getEmail() {
 		return email;
@@ -28,8 +31,7 @@ public class LoginBean implements Serializable{
 	}
 	
 	public String doLogin() {
-		HibernateDataAccess hda = new HibernateDataAccess();
-		Driver d = hda.getDriver(email, password);
+		Driver d = facade.getDriver(email, password);
 		if (d != null) {
 			return "ok";
 		}
