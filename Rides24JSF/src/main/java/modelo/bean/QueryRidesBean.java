@@ -5,6 +5,8 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import domain.Driver;
 import jakarta.inject.Named;
+import principal.BLFacade;
+import principal.BLFacadeImplementation;
 import principal.HibernateDataAccess;
 
 import java.io.Serializable;
@@ -18,12 +20,21 @@ import org.primefaces.event.SelectEvent;
 @Named("queryRides")
 @SessionScoped
 public class QueryRidesBean implements Serializable{
-	private List<String> departCities = new ArrayList<String>();
-	private List<String> arrivalCities = new ArrayList<String>();
+	BLFacade facade = new BLFacadeImplementation();
+	private List<String> departCities;
+	private List<String> arrivalCities;
 	private List<Ride> concreteRides = new ArrayList<Ride>();
 	private String selectedDepartCity;
 	private String selectedArriveCity;
 	private Date fecha = new Date();
+	
+	
+	public QueryRidesBean() {
+		this.departCities = getDepartingCities();
+		if (departCities.size() > 0) this.arrivalCities = getArrivalCities(departCities.get(0));
+		this.selectedDepartCity = departCities.get(0);
+		this.selectedArriveCity = arrivalCities.get(0);
+	}
 	
 	public List<String> getDepartCities() {
 		return departCities;
@@ -66,6 +77,8 @@ public class QueryRidesBean implements Serializable{
 		System.out.println(event.getObject());
 		event.getFacesContext().addMessage("calendario",
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
+		validateDate();
+		queryRides();
 	}
 	public void validateDate() {
 		 if (fecha != null && fecha.before(new Date())) {
@@ -74,29 +87,47 @@ public class QueryRidesBean implements Serializable{
 	        }
 	}
 	
-	public void getDepartingCities() {	//Desde db
+	public List<String> getDepartingCities() {	//Desde db
 		try {
-			HibernateDataAccess hda = new HibernateDataAccess();
-			this.departCities = hda.getDepartCities();
+			System.out.print("Se ejecuta getDepartingCities");
+			//HibernateDataAccess hda = new HibernateDataAccess();
+			this.departCities = facade.getDepartCities();
+			return departCities;
 	}  catch (Exception e){
 		e.printStackTrace();
+		return null;
 	}
 	}
-	public void getArrivalCities(String from) {	//Desde db
+	public List<String> getArrivalCities(String from) {	//Desde db
 		try {
-			HibernateDataAccess hda = new HibernateDataAccess();
-			this.arrivalCities = hda.getArrivalCities(from);
+			System.out.print("Se ejecuta getArrivalCities");
+			//HibernateDataAccess hda = new HibernateDataAccess();
+			this.arrivalCities = facade.getDestinationCities(from);
+			return arrivalCities;
 	}  catch (Exception e){
 		e.printStackTrace();
+		return null;
 	}
 	}
 	public void queryRides() {
-		try {
-			HibernateDataAccess hda = new HibernateDataAccess();
-			this.concreteRides = hda.getRides(selectedDepartCity, selectedArriveCity, fecha);
+		try {	    
+			System.out.print("Se ejecuta queryRides");
+			this.concreteRides = facade.getRides(selectedDepartCity, selectedArriveCity, fecha);
 	}  catch (Exception e){
 		e.printStackTrace();
 	}
+	}
+	public void onChange(String nuevoDc) {		//Se ejecutara cuando se escoja un departCity
+		System.out.print("Se ejecuta onChange");
+		setSelectedDepartCity(nuevoDc);
+		getArrivalCities(this.selectedDepartCity);
+		queryRides();
+	}
+	
+	public void dateSelectQueryRides(SelectEvent event) {
+		System.out.print("Se ejecuta calendario");
+		onDateSelect(event);
+		queryRides();
 	}
 	
 	

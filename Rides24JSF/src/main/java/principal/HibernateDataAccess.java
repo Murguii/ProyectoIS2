@@ -108,12 +108,14 @@ public class HibernateDataAccess {
 		 EntityManager em = JPAUtil.getEntityManager();
 		try {
 			em.getTransaction().begin();
-			TypedQuery<Ride> q = em.createQuery("SELECT r FROM Ride r WHERE r.\"from\" =:f AND r.to =:t AND r.date =:d",
+			System.out.println("llega hasta aqui");
+			TypedQuery<Ride> q = em.createQuery("SELECT r FROM Ride r WHERE r.departCity =:f AND r.arrivalCity =:t AND r.date =:d",
 					Ride.class);
 			q.setParameter("f", dc);
 			q.setParameter("t", ac);
 			q.setParameter("d", d);
 			List<Ride> result = q.getResultList();
+			System.out.println(result);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,7 +132,7 @@ public class HibernateDataAccess {
 		EntityManager em = JPAUtil.getEntityManager();
 		try {
 			em.getTransaction().begin();
-			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
+			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.departCity FROM Ride r ORDER BY r.departCity", String.class);
 			return q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,7 +149,7 @@ public class HibernateDataAccess {
 		EntityManager em = JPAUtil.getEntityManager();
 		try {
 			em.getTransaction().begin();
-			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.to FROM Ride r WHERE r.from =:f ORDER BY r.to", String.class);
+			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.departCity =:f ORDER BY r.departCity", String.class);
 			q.setParameter("f", from);
 			return q.getResultList();
 		} catch (Exception e) {
@@ -170,7 +172,7 @@ public class HibernateDataAccess {
 		Date lastDayMonthDate= UtilDate.lastDayMonth(date);
 		try {		
 		em.getTransaction().begin();
-		TypedQuery<Date> query = em.createQuery("SELECT DISTINCT r.date FROM Ride r WHERE r.from=?1 AND r.to=?2 AND r.date BETWEEN ?3 and ?4",Date.class);   
+		TypedQuery<Date> query = em.createQuery("SELECT DISTINCT r.date FROM Ride r WHERE r.departCity=?1 AND r.arrivalCity=?2 AND r.date BETWEEN ?3 and ?4",Date.class);   
 		
 		query.setParameter(1, from);
 		query.setParameter(2, to);
