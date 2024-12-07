@@ -104,16 +104,17 @@ public class HibernateDataAccess {
 		}
 	}
 
-	public List<Ride> getRides(String dc, String ac, Date d) { // queryRides
+	public List<Ride> getRides(String dc, String ac, Date d, String driverEmail) { // queryRides
 		 EntityManager em = JPAUtil.getEntityManager();
 		try {
 			em.getTransaction().begin();
 			System.out.println("llega hasta aqui");
-			TypedQuery<Ride> q = em.createQuery("SELECT r FROM Ride r WHERE r.departCity =:f AND r.arrivalCity =:t AND r.date =:d",
+			TypedQuery<Ride> q = em.createQuery("SELECT r FROM Ride r JOIN r.driver d WHERE r.departCity =:f AND r.arrivalCity =:t AND r.date =:d AND d.email = :e",
 					Ride.class);
 			q.setParameter("f", dc);
 			q.setParameter("t", ac);
 			q.setParameter("d", d);
+			q.setParameter("e", driverEmail);
 			List<Ride> result = q.getResultList();
 			System.out.println(result);
 			return result;
@@ -128,11 +129,12 @@ public class HibernateDataAccess {
 		}
 	}
 	
-	public List<String> getDepartCities() {
+	public List<String> getDepartCities(String email) {
 		EntityManager em = JPAUtil.getEntityManager();
 		try {
 			em.getTransaction().begin();
-			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.departCity FROM Ride r ORDER BY r.departCity", String.class);
+			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.departCity FROM Ride r JOIN r.driver d WHERE d.email =:e ORDER BY r.departCity", String.class);
+			q.setParameter("e", email);
 			return q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,12 +147,13 @@ public class HibernateDataAccess {
 	}
 	}
 	
-	public List<String> getArrivalCities(String from) {
+	public List<String> getArrivalCities(String from, String email) {
 		EntityManager em = JPAUtil.getEntityManager();
 		try {
 			em.getTransaction().begin();
-			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.departCity =:f ORDER BY r.departCity", String.class);
+			TypedQuery<String> q = em.createQuery("SELECT DISTINCT r.arrivalCity FROM Ride r JOIN r.driver d WHERE r.departCity =:f AND d.email =:d ORDER BY r.departCity", String.class);
 			q.setParameter("f", from);
+			q.setParameter("d", email);
 			return q.getResultList();
 		} catch (Exception e) {
 			e.printStackTrace();

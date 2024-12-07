@@ -1,9 +1,10 @@
 package modelo.bean;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import domain.Driver;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import principal.BLFacade;
 import principal.BLFacadeImplementation;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import modelo.dominio.Ride;
+import modelo.dominio.Driver;
 import org.primefaces.event.SelectEvent;
 
 @Named("queryRides")
@@ -27,14 +29,22 @@ public class QueryRidesBean implements Serializable{
 	private String selectedDepartCity;
 	private String selectedArriveCity;
 	private Date fecha = new Date();
+	private Driver driver;
 	
-	
-	public QueryRidesBean() {
+	@Inject
+    private LoginBean loginBean;
+		
+	@PostConstruct
+    public void init() {
+		initializeDriver();
 		this.departCities = getDepartingCities();
-		if (departCities.size() > 0) this.arrivalCities = getArrivalCities(departCities.get(0));
-		this.selectedDepartCity = departCities.get(0);
-		this.selectedArriveCity = arrivalCities.get(0);
+		if (departCities != null && !departCities.isEmpty()) {
+			this.arrivalCities = getArrivalCities(departCities.get(0));	
+			this.selectedDepartCity = departCities.get(0);
+			this.selectedArriveCity = arrivalCities.get(0);
+		}		
 	}
+	
 	
 	public List<String> getDepartCities() {
 		return departCities;
@@ -89,9 +99,11 @@ public class QueryRidesBean implements Serializable{
 	
 	public List<String> getDepartingCities() {	//Desde db
 		try {
-			System.out.print("Se ejecuta getDepartingCities");
+			System.out.println("El valor del email es: " + this.driver.getEmail());
+			System.out.println("Se ejecuta getDepartingCities");
 			//HibernateDataAccess hda = new HibernateDataAccess();
-			this.departCities = facade.getDepartCities();
+			this.departCities = facade.getDepartCities(this.driver.getEmail());
+			System.out.println(this.departCities);
 			return departCities;
 	}  catch (Exception e){
 		e.printStackTrace();
@@ -100,9 +112,9 @@ public class QueryRidesBean implements Serializable{
 	}
 	public List<String> getArrivalCities(String from) {	//Desde db
 		try {
-			System.out.print("Se ejecuta getArrivalCities");
+			System.out.println("Se ejecuta getArrivalCities");
 			//HibernateDataAccess hda = new HibernateDataAccess();
-			this.arrivalCities = facade.getDestinationCities(from);
+			this.arrivalCities = facade.getDestinationCities(from, this.driver.getEmail());
 			return arrivalCities;
 	}  catch (Exception e){
 		e.printStackTrace();
@@ -111,16 +123,19 @@ public class QueryRidesBean implements Serializable{
 	}
 	public void queryRides() {
 		try {	    
-			System.out.print("Se ejecuta queryRides");
-			this.concreteRides = facade.getRides(selectedDepartCity, selectedArriveCity, fecha);
+			System.out.println("Se ejecuta queryRides");
+			this.concreteRides = facade.getRides(selectedDepartCity, selectedArriveCity, fecha, this.driver.getEmail());
 	}  catch (Exception e){
 		e.printStackTrace();
 	}
 	}
-	public void onChange(String nuevoDc) {		//Se ejecutara cuando se escoja un departCity
-		System.out.print("Se ejecuta onChange");
-		setSelectedDepartCity(nuevoDc);
-		getArrivalCities(this.selectedDepartCity);
+	public void onChange() {		//Se ejecutara cuando se escoja un departCity
+		System.out.println("Se ejecuta onChange");
+		System.out.println("nuevo valor de departCity: " + this.getSelectedDepartCity());
+		this.arrivalCities.clear();
+		this.arrivalCities = getArrivalCities(this.selectedDepartCity);
+		this.selectedArriveCity = arrivalCities.get(0);
+		departCities = getDepartCities();
 		queryRides();
 	}
 	
@@ -129,6 +144,17 @@ public class QueryRidesBean implements Serializable{
 		onDateSelect(event);
 		queryRides();
 	}
+	
+	public void initializeDriver() {
+        String email = loginBean.getEmail();
+        String password = loginBean.getPassword();
+        Driver d = facade.getDriver(email, password);
+        if (d != null) {
+            this.driver = d;
+        } else {
+            //no existe driver
+        }
+    }
 	
 	
 	

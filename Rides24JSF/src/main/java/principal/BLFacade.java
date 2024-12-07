@@ -14,7 +14,7 @@ public interface BLFacade {
 	 * This method returns all the cities where rides depart 
 	 * @return collection of cities
 	 */
-	public List<String> getDepartCities();
+	public List<String> getDepartCities(String e);
 	
 	/**
 	 * This method returns all the arrival destinations, from all rides that depart from a given city  
@@ -22,7 +22,7 @@ public interface BLFacade {
 	 * @param from the depart location of a ride
 	 * @return all the arrival destinations
 	 */
-	public List<String> getDestinationCities(String from);
+	public List<String> getDestinationCities(String from, String e);
 
 
 	/**
@@ -49,7 +49,7 @@ public interface BLFacade {
 	 * @param date the date of the ride 
 	 * @return collection of rides
 	 */
-	public List<Ride> getRides(String from, String to, Date date);
+	public List<Ride> getRides(String from, String to, Date date, String e);
 	
 	/**
 	 * This method retrieves from the database the dates a month for which there are events

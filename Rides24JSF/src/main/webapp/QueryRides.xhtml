@@ -15,19 +15,20 @@
 					<td>Depart City:</td>
 					<td><h:selectOneMenu value="#{queryRides.selectedDepartCity}">
 							<f:selectItems value="#{queryRides.departCities}" />
-							<p:ajax event="change" listener="#{queryRides.onchange}" update="tabla"></p:ajax>
+							<p:ajax event="change" listener="#{queryRides.onChange}" update="tabla, arrive"></p:ajax>
 						</h:selectOneMenu></td>
 
 					<td><p:calendar id="fecha" value="#{queryRides.fecha}"
 							navigator="true" pattern="dd/MM/yyyy" showOn="button">
 							<p:ajax event="dateSelect" listener="#{queryRides.onDateSelect}"
 								update="dateMessage, tabla"></p:ajax>
-						</p:calendar></td>
+						</p:calendar>					
+					</td>			
 					<td><h:message id="dateMessage" for="calendario" style="color:red"/></td>
 				</tr>
 				<tr>
 					<td>Arrival City:</td>
-					<td><h:selectOneMenu value="#{queryRides.selectedArriveCity}">
+					<td><h:selectOneMenu id="arrive" value="#{queryRides.selectedArriveCity}">
 							<f:selectItems value="#{queryRides.arrivalCities}" />
 							<p:ajax event="change" listener="#{queryRides.queryRides}" update="tabla"></p:ajax>
 						</h:selectOneMenu></td>

@@ -33,16 +33,16 @@ public class BLFacadeImplementation implements BLFacade{
     /**
      * {@inheritDoc}
      */
-    public List<String> getDepartCities(){
-		 List<String> departLocations=dbManager.getDepartCities();				
+    public List<String> getDepartCities(String e){
+		 List<String> departLocations=dbManager.getDepartCities(e);				
 		return departLocations;
     	
     }
     /**
      * {@inheritDoc}
      */
-	public List<String> getDestinationCities(String from){
-		 List<String> targetCities=dbManager.getArrivalCities(from);				
+	public List<String> getDestinationCities(String from, String e){
+		 List<String> targetCities=dbManager.getArrivalCities(from, e);				
 		return targetCities;
 	}
 
@@ -57,8 +57,8 @@ public class BLFacadeImplementation implements BLFacade{
    /**
     * {@inheritDoc}
     */
-	public List<Ride> getRides(String from, String to, Date date){
-		List<Ride>  rides=dbManager.getRides(from, to, date);
+	public List<Ride> getRides(String from, String to, Date date, String e){
+		List<Ride>  rides=dbManager.getRides(from, to, date, e);
 		return rides;
 	}
 
