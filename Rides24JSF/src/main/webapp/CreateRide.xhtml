@@ -7,6 +7,7 @@
 <f:view>
 	<h:head>
 		<title>Create ride</title>
+		<h:outputScript library="js" name="infoJavaScript.js"/>
 	</h:head>
 	<h:body>
 		<h:form>
@@ -55,7 +56,7 @@
 					<td>Fecha:</td>
 					<td>
 						<p:calendar id="calendario" value="#{createRide.fecha}" navigator="true" pattern="dd/MM/yyyy" showOn="button">
-							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateLabel"></p:ajax>
+							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="errorMessage"></p:ajax>
 							 <p:ajax event="dateSelect" listener="#{createRide.validateDate}" update="errorMessage"/>
 						</p:calendar>	
 					</td>
@@ -67,7 +68,9 @@
 				</tr>
 			</table>
 			<p>
-				<h:commandButton value="Create ride" action="#{createRide.createRide}" />
+				<h:commandButton value="Create ride" action="#{createRide.createRide}">
+					<p:ajax event="click" listener="#{createRide.validateForm}" value="#{createRide.validateForm} ? showMessage('Viaje creado') : showMessage('Por favor rellene el formulario correctamente')"/>
+				</h:commandButton>
 				<h:commandButton value="Close" action="#{createRide.close}" immediate="true" />
 			</p>
 		</h:form>
