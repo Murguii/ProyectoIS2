@@ -14,11 +14,20 @@
 				<tr>
 					<td>Name:</td>
 					<td>
-						<h:inputText id="name" value="#{register.nombre}">
+						<h:inputText id="name" value="#{register.name}">
 
 						</h:inputText>
 					</td>
 					<td><h:message id="nameMessage" for="name" style="color:red"/></td>	
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td>
+						<h:inputText id="email" value="#{register.email}">
+
+						</h:inputText>
+					</td>
+					<td><h:message id="emailMessage" for="email" style="color:red"/></td>	
 				</tr>
 				<tr>
 					<td>Password:</td>

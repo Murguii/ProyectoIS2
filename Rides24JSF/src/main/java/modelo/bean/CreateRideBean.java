@@ -1,10 +1,13 @@
 package modelo.bean;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named; 
-import domain.Ride;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import principal.HibernateDataAccess;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 
@@ -13,38 +16,45 @@ import java.util.Date;
 
 import org.primefaces.event.SelectEvent;
 
-import businessLogic.BLFacade;
-import domain.Driver;
+import principal.BLFacade;
+import principal.BLFacadeImplementation;
+import modelo.dominio.*;
 
 @Named("createRide")
 @SessionScoped
 public class CreateRideBean  implements Serializable{
-	private String from;
-	private String to;
+	
+	private String departCity;
+	private String arrivalCity;
 	private int nPlaces = 0;
 	private Date fecha;
 	private float price = 0;
 	private Driver driver;
 	private String error = null;
+	BLFacade facade = new BLFacadeImplementation();
 	
-	//private Driver driver = new Driver("driver3@gmail.com","Test Driver");
+	@Inject
+    private LoginBean loginBean;
 	
-	//private static BLFacade appFacadeInterface;
-
-	public String getFrom() {
-		return from;
+	 @PostConstruct
+	 public void init() {
+		 initializeDriver();
+	  }
+	
+	public String getDepartCity() {
+		return departCity;
 	}
 
-	public void setFrom(String from) {
-		this.from = from;
+	public void setDepartCity(String departCity) {
+		this.departCity = departCity;
 	}
 
-	public String getTo() {
-		return to;
+	public String getArrivalCity() {
+		return arrivalCity;
 	}
 
-	public void setTo(String to) {
-		this.to = to;
+	public void setArrivalCity(String arrivalCity) {
+		this.arrivalCity = arrivalCity;
 	}
 
 	public int getnPlaces() {
@@ -98,7 +108,8 @@ public class CreateRideBean  implements Serializable{
 	        error = "La fecha es anterior a hoy, los viajes en el tiempo aún no existen sabes?";
 		 }else {error = null;}
 		 
-	}
+	}		 
+	
 	
 	
 	public void onDateSelect(SelectEvent event) {
@@ -109,29 +120,41 @@ public class CreateRideBean  implements Serializable{
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
 				 */
 		} 
+	
 	public boolean validateForm() {
-		if(fecha == null || from == null || to==null || nPlaces == 0 || price == 0.0) {
+		if(fecha == null || departCity == null || arrivalCity==null || nPlaces == 0 || price == 0.0) {
 			return false;
 		}
 		return true;
 	}
+	
+	public void initializeDriver() {
+        String email = loginBean.getEmail();
+        String password = loginBean.getPassword();
+        Driver d = facade.getDriver(email, password);
+        if (d != null) {
+            this.driver = d;
+        } else {
+            //no existe driver
+        }
+    }
 
-	/*
+
+	
 	public String createRide() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		try {
-			BLFacade facade = appFacadeInterface;
-			Ride r = facade.createRide(from, to, fecha, nPlaces, price, driver.getEmail());
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ride creado exitosamente", null));
-			return "ok";
-		} catch (RideMustBeLaterThanTodayException e1) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e1.getMessage(), null));
-			return "error";
-		} catch (RideAlreadyExistException e1) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e1.getMessage(), null));
+			 String email = loginBean.getEmail();
+			 facade.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
+			 //mensaje diciendo que se ha creado el ride
+			 FacesContext.getCurrentInstance().addMessage("confirmed", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
+			 return "ok";
+		} catch (Exception e){
+			e.printStackTrace();
+			//mensaje indicando error
 			return "error";
 		}
+		 
 
 	}
-	*/
+	
 }

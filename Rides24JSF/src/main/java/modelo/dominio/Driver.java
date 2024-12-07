@@ -1,10 +1,12 @@
 package modelo.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -18,8 +20,9 @@ public class Driver implements Serializable{
 	@Id
 	private String email;
 	private String name; 
-	 @OneToMany(fetch=FetchType.EAGER)
-	private List<Ride> rides=new Vector<Ride>();
+	private String password;
+	 @OneToMany(targetEntity=Ride.class, cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+	private List<Ride> rides=new ArrayList<Ride>();
 	
 	
 	public Driver() {
@@ -47,9 +50,15 @@ public class Driver implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
 
-	
-	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String toString(){
 		return email+";"+name+rides;
 	}
@@ -61,8 +70,8 @@ public class Driver implements Serializable{
 	 * @param betMinimum of that question
 	 * @return Bet
 	 */
-	public Ride addRide(String from, String to, Date date, int nPlaces, float price)  {
-        Ride ride=new Ride(from,to,date,nPlaces,price, this);
+	public Ride addRide(String departCity, String arrivalCity, Date date, int nPlaces, float price)  {
+        Ride ride=new Ride(departCity,arrivalCity,date,nPlaces,price, this);
         rides.add(ride);
         return ride;
 	}
@@ -75,9 +84,9 @@ public class Driver implements Serializable{
 	 * @param date the date of the ride 
 	 * @return true if the ride exists and false in other case
 	 */
-	public boolean doesRideExists(String from, String to, Date date)  {	
+	public boolean doesRideExists(String departCity, String arrivalCity, Date date)  {	
 		for (Ride r:rides)
-			if ( (java.util.Objects.equals(r.getFrom(),from)) && (java.util.Objects.equals(r.getTo(),to)) && (java.util.Objects.equals(r.getDate(),date)) )
+			if ( (java.util.Objects.equals(r.getDepartCity(),departCity)) && (java.util.Objects.equals(r.getArrivalCity(),arrivalCity)) && (java.util.Objects.equals(r.getDate(),date)) )
 			 return true;
 		
 		return false;
@@ -97,13 +106,13 @@ public class Driver implements Serializable{
 		return true;
 	}
 
-	public Ride removeRide(String from, String to, Date date) {
+	public Ride removeRide(String departCity, String arrivalCity, Date date) {
 		boolean found=false;
 		int index=0;
 		Ride r=null;
 		while (!found && index<=rides.size()) {
 			r=rides.get(++index);
-			if ( (java.util.Objects.equals(r.getFrom(),from)) && (java.util.Objects.equals(r.getTo(),to)) && (java.util.Objects.equals(r.getDate(),date)) )
+			if ( (java.util.Objects.equals(r.getDepartCity(),departCity)) && (java.util.Objects.equals(r.getArrivalCity(),arrivalCity)) && (java.util.Objects.equals(r.getDate(),date)) )
 			found=true;
 		}
 			

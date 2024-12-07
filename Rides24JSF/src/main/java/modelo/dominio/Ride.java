@@ -3,6 +3,7 @@ package modelo.dominio;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,24 +17,24 @@ public class Ride implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Integer rideNumber;
-	private String from;
-	private String to;
+	private String departCity;
+	private String arrivalCity;
 	private int nPlaces;
 	private Date date;
 	private float price;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=Driver.class, cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
 	private Driver driver;
 	
 	public Ride(){
 		super();
 	}
 	
-	public Ride(Integer rideNumber, String from, String to, Date date, int nPlaces, float price, Driver driver) {
+	public Ride(Integer rideNumber, String departCity, String arrivalCity, Date date, int nPlaces, float price, Driver driver) {
 		super();
 		this.rideNumber = rideNumber;
-		this.from = from;
-		this.to = to;
+		this.departCity = departCity;
+		this.arrivalCity = arrivalCity;
 		this.nPlaces = nPlaces;
 		this.date=date;
 		this.price=price;
@@ -42,10 +43,10 @@ public class Ride implements Serializable{
 
 	
 
-	public Ride(String from, String to,  Date date, int nPlaces, float price, Driver driver) {
+	public Ride(String departCity, String arrivalCity,  Date date, int nPlaces, float price, Driver driver) {
 		super();
-		this.from = from;
-		this.to = to;
+		this.departCity = departCity;
+		this.arrivalCity = arrivalCity;
 		this.nPlaces = nPlaces;
 		this.date=date;
 		this.price=price;
@@ -78,8 +79,8 @@ public class Ride implements Serializable{
 	 * @return the origin location
 	 */
 
-	public String getFrom() {
-		return from;
+	public String getDepartCity() {
+		return departCity;
 	}
 
 
@@ -89,8 +90,8 @@ public class Ride implements Serializable{
 	 * @param origin to be set
 	 */	
 	
-	public void setFrom(String origin) {
-		this.from = origin;
+	public void setDepartCity(String origin) {
+		this.departCity = origin;
 	}
 
 	/**
@@ -99,8 +100,8 @@ public class Ride implements Serializable{
 	 * @return the destination location
 	 */
 
-	public String getTo() {
-		return to;
+	public String getArrivalCity() {
+		return arrivalCity;
 	}
 
 
@@ -109,8 +110,8 @@ public class Ride implements Serializable{
 	 * 
 	 * @param destination to be set
 	 */	
-	public void setTo(String destination) {
-		this.to = destination;
+	public void setArrivalCity(String destination) {
+		this.arrivalCity = destination;
 	}
 
 	/**
@@ -180,6 +181,6 @@ public class Ride implements Serializable{
 
 
 	public String toString(){
-		return rideNumber+";"+";"+from+";"+to+";"+date;  
+		return rideNumber+";"+";"+departCity+";"+arrivalCity+";"+date;  
 	}
 }

@@ -15,7 +15,7 @@
 				<tr>
 					<td>Depart City:</td>
 					<td>
-						<h:inputText id="departCity" value="#{createRide.from}" validatorMessage="Solo se admiten letras">
+						<h:inputText id="departCity" value="#{createRide.departCity}" validatorMessage="Solo se admiten letras">
 							<f:validateRegex pattern="^[a-zA-Z]+$"/>
 							<f:ajax execute="departCity" render="departCityMessage"/> 
 						</h:inputText>
@@ -25,7 +25,7 @@
 				<tr>
 					<td>Arrival City:</td>
 					<td>
-						<h:inputText id="arrivalCity" value="#{createRide.to}" validatorMessage="Solo se admiten letras">
+						<h:inputText id="arrivalCity" value="#{createRide.arrivalCity}" validatorMessage="Solo se admiten letras">
 							<f:validateRegex pattern="^[a-zA-Z]+$"/>
 							<f:ajax execute="departCity" render="arrivalCityMessage"/>
 						</h:inputText>
@@ -57,7 +57,7 @@
 					<td>
 						<p:calendar id="calendario" value="#{createRide.fecha}" navigator="true" pattern="dd/MM/yyyy" showOn="button">
 							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="errorMessage"></p:ajax>
-							 <p:ajax event="dateSelect" listener="#{createRide.validateDate}" update="errorMessage"/>
+							 <!-- <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateLabel"></p:ajax> -->
 						</p:calendar>	
 					</td>
 					
@@ -72,6 +72,7 @@
 					<p:ajax event="click" listener="#{createRide.validateForm}" value="#{createRide.validateForm} ? showMessage('Viaje creado') : showMessage('Por favor rellene el formulario correctamente')"/>
 				</h:commandButton>
 				<h:commandButton value="Close" action="#{createRide.close}" immediate="true" />
+				<h:message id="confirmed" style="color:green"></h:message>
 			</p>
 		</h:form>
 	</h:body>
