@@ -202,11 +202,15 @@ public class HibernateDataAccess {
 		EntityManager em = JPAUtil.getEntityManager();
 		try {
 			if(d == em.find(Driver.class, d.getEmail())) {
-				System.out.println("El conductor ya existe.")
+				System.out.println("El conductor ya existe.");
 				return false;
 			}else {
 				System.out.println("Nuevo conductor, bienvenido.");
+				return true;
 			}
+		}catch(Exception e){
+			return false; //Esto para quitar el error del método, hay que poner algo luego
+			
 		}
 		
 	}
