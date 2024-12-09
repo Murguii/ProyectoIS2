@@ -18,6 +18,7 @@ import org.primefaces.event.SelectEvent;
 
 import principal.BLFacade;
 import principal.BLFacadeImplementation;
+import principal.HibernateDataAccess;
 import modelo.dominio.*;
 
 @Named("createRide")
@@ -119,6 +120,7 @@ public class CreateRideBean  implements Serializable{
 		/*FacesContext.getCurrentInstance().addMessage("calendario",
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
 				 */
+			validateDate();
 		} 
 	
 	public boolean validateForm() {
@@ -146,7 +148,7 @@ public class CreateRideBean  implements Serializable{
 			 String email = loginBean.getEmail();
 			 facade.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
 			 //mensaje diciendo que se ha creado el ride
-			 FacesContext.getCurrentInstance().addMessage("confirmed", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
+			 FacesContext.getCurrentInstance().addMessage("Ride creado", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
 			 return "ok";
 		} catch (Exception e){
 			e.printStackTrace();

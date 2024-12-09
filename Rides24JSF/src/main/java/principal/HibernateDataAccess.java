@@ -198,6 +198,19 @@ public class HibernateDataAccess {
 		}
 	}
 	
+	public boolean existsDriver(Driver d) {
+		EntityManager em = JPAUtil.getEntityManager();
+		try {
+			if(d == em.find(Driver.class, d.getEmail())) {
+				System.out.println("El conductor ya existe.")
+				return false;
+			}else {
+				System.out.println("Nuevo conductor, bienvenido.");
+			}
+		}
+		
+	}
+	
 	public void close(){
 		EntityManager em = JPAUtil.getEntityManager();
 		em.close();
