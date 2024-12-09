@@ -151,15 +151,15 @@ public class CreateRideBean  implements Serializable{
 			 if(facade.rideCreable(facade.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email))) {
 			 
 			 FacesContext.getCurrentInstance().addMessage("Ride creado", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
-			 return "ok";
+			 return "Ride creado";
 			 }else {
 				 FacesContext.getCurrentInstance().addMessage("No ha sido posible crear el ride", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje ya existe por lo que no se puede crear de nuevo.", null));
-				 return "ok pero el ride no se puede crear colega";
+				 return "El ride no se puede crear colega";
 			 }
 		} catch (Exception e){
 			e.printStackTrace();
 			//mensaje indicando error
-			return "error";
+			return "ERR0R";
 		}
 		 
 
