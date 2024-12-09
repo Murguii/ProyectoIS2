@@ -198,23 +198,22 @@ public class HibernateDataAccess {
 		}
 	}
 	
-	public boolean existsRide(Ride ride) {
+	public boolean rideCreable(Ride ride) {
 		EntityManager em = JPAUtil.getEntityManager();
 		try {
 			if(ride == em.find(Ride.class, ride.getRideNumber())) {
 				System.out.println("El viaje ya existe.");
 				return false;
 			}else {
-				System.out.println("Nuevo viaje, creado.");
+				System.out.println("Nuevo viaje creado.");
 				return true;
 			}
 		}catch(Exception e){
-			return false; //Esto para quitar el error del método, hay que poner algo luego
-			
+			e.printStackTrace(); 
+			return false;
 		}finally {
 			em.close();
 		}
-		
 	}
 	
 	public void close(){

@@ -94,4 +94,11 @@ public class BLFacadeImplementation implements BLFacade{
 
 	}
 
+	public boolean rideCreable(Ride storeRide) {
+		// TODO Auto-generated method stub
+		if(!dbManager.rideCreable(storeRide)) {
+			return false;
+		} return true;
+	}
+
 }
