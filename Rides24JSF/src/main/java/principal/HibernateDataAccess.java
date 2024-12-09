@@ -198,14 +198,14 @@ public class HibernateDataAccess {
 		}
 	}
 	
-	public boolean existsDriver(Driver d) {
+	public boolean existsRide(Ride ride) {
 		EntityManager em = JPAUtil.getEntityManager();
 		try {
-			if(d == em.find(Driver.class, d.getEmail())) {
-				System.out.println("El conductor ya existe.");
+			if(ride == em.find(Ride.class, ride.getRideNumber())) {
+				System.out.println("El viaje ya existe.");
 				return false;
 			}else {
-				System.out.println("Nuevo conductor, bienvenido.");
+				System.out.println("Nuevo viaje, creado.");
 				return true;
 			}
 		}catch(Exception e){
