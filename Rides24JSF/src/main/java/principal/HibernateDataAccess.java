@@ -211,6 +211,8 @@ public class HibernateDataAccess {
 		}catch(Exception e){
 			return false; //Esto para quitar el error del método, hay que poner algo luego
 			
+		}finally {
+			em.close();
 		}
 		
 	}
