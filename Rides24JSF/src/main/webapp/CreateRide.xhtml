@@ -7,6 +7,7 @@
 <f:view>
 	<h:head>
 		<title>Create ride</title>
+		<h:outputScript library="js" name="infoJavaScript.js"/>
 	</h:head>
 	<h:body>
 		<h:form>
@@ -14,7 +15,7 @@
 				<tr>
 					<td>Depart City:</td>
 					<td>
-						<h:inputText id="departCity" value="#{createRide.from}" validatorMessage="Solo se admiten letras">
+						<h:inputText id="departCity" value="#{createRide.departCity}" validatorMessage="Solo se admiten letras">
 							<f:validateRegex pattern="^[a-zA-Z]+$"/>
 							<f:ajax execute="departCity" render="departCityMessage"/> 
 						</h:inputText>
@@ -24,7 +25,7 @@
 				<tr>
 					<td>Arrival City:</td>
 					<td>
-						<h:inputText id="arrivalCity" value="#{createRide.to}" validatorMessage="Solo se admiten letras">
+						<h:inputText id="arrivalCity" value="#{createRide.arrivalCity}" validatorMessage="Solo se admiten letras">
 							<f:validateRegex pattern="^[a-zA-Z]+$"/>
 							<f:ajax execute="departCity" render="arrivalCityMessage"/>
 						</h:inputText>
@@ -34,8 +35,8 @@
 				<tr>
 					<td>Number of seats:</td>
 					<td>
-						<h:inputText id="numberSeats" value="#{createRide.nPlaces}" validatorMessage="Solo se admiten números enteros positivos">
-							<f:validateLongRange minimum="1"/>
+						<h:inputText id="numberSeats" value="#{createRide.nPlaces}" validatorMessage="Solo se admiten números enteros positivos (máx.60)">
+							<f:validateLongRange minimum="1" maximum="60"/>
 							<f:ajax execute="numberSeats" render="numberSeatsMessage"/>
 						</h:inputText>
 					</td>
@@ -44,8 +45,8 @@
 				<tr>
 					<td>Price:</td>
 					<td>
-						<h:inputText id="price" value="#{createRide.price}"  validatorMessage="Solo se admiten números positivos">
-							<f:validateDoubleRange minimum="0.01" />
+						<h:inputText id="price" value="#{createRide.price}"  validatorMessage="Solo se admiten números positivos (pero dentro del sentido común, tampoco 1000€)">
+							<f:validateDoubleRange minimum="0.01" maximum="50"/>
 							<f:ajax execute="price" render="priceMessage"/>
 						</h:inputText>
 					</td>
@@ -55,15 +56,23 @@
 					<td>Fecha:</td>
 					<td>
 						<p:calendar id="calendario" value="#{createRide.fecha}" navigator="true" pattern="dd/MM/yyyy" showOn="button">
-							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateMessage"></p:ajax>
+							 <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="errorMessage"></p:ajax>
+							 <!-- <p:ajax event="dateSelect" listener="#{createRide.onDateSelect}" update="dateLabel"></p:ajax> -->
 						</p:calendar>	
 					</td>
-					<td><h:message id="dateMessage" for="calendario" style="color:red"/></td>
+					
+					<td>
+					<h:outputText id="errorMessage" for="calendario" value="#{createRide.error != null ? createRide.error : createRide.fecha}" style="color:red"/>
+					<!--h:outputLabel id="dateLabel" for="calendario" value="#{createRide.fecha}"/-->`
+					</td>
 				</tr>
 			</table>
 			<p>
-				<h:commandButton value="Create ride" action="#{createRide.createRide}" />
+				<h:commandButton value="Create ride" action="#{createRide.createRide}">
+					<p:ajax event="click" listener="#{createRide.validateForm}" value="#{createRide.validateForm} ? showMessage('Viaje creado') : showMessage('Por favor rellene el formulario correctamente')"/>
+				</h:commandButton>
 				<h:commandButton value="Close" action="#{createRide.close}" immediate="true" />
+				<h:message id="confirmed" style="color:green"></h:message>
 			</p>
 		</h:form>
 	</h:body>
