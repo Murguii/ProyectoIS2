@@ -18,11 +18,12 @@ import org.primefaces.event.SelectEvent;
 
 import principal.BLFacade;
 import principal.BLFacadeImplementation;
+import principal.HibernateDataAccess;
 import modelo.dominio.*;
 
 @Named("createRide")
 @SessionScoped
-public class CreateRideBean  implements Serializable{
+public class CreateRideBean implements Serializable{
 	
 	private String departCity;
 	private String arrivalCity;
@@ -31,6 +32,7 @@ public class CreateRideBean  implements Serializable{
 	private float price = 0;
 	private Driver driver;
 	private String error = null;
+	private String mensaje = null;
 	BLFacade facade = new BLFacadeImplementation();
 	
 	@Inject
@@ -120,6 +122,7 @@ public class CreateRideBean  implements Serializable{
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
 				 */
 		validateDate();
+
 		} 
 	
 	public boolean validateForm() {
@@ -142,20 +145,34 @@ public class CreateRideBean  implements Serializable{
 
 
 	
-	public String createRide() {
+	public void createRide() {
 		try {
 			 String email = loginBean.getEmail();
-			 facade.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
+			 
 			 //mensaje diciendo que se ha creado el ride
-			 FacesContext.getCurrentInstance().addMessage("confirmed", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
-			 return "ok";
+			 if(validateForm()) {
+				 facade.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
+					 FacesContext.getCurrentInstance().addMessage("Ride creado", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
+					 setMensaje("Ride creado");
+			 }else {
+						 FacesContext.getCurrentInstance().addMessage("No ha sido posible crear el ride", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje ya existe por lo que no se puede crear de nuevo.", null));
+						 setMensaje("El ride no se puede crear si no rellenas el formulario colega");
+			 }
 		} catch (Exception e){
 			e.printStackTrace();
 			//mensaje indicando error
-			return "error";
+			setMensaje("ERR0R");
 		}
 		 
 
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
 	}
 	
 }

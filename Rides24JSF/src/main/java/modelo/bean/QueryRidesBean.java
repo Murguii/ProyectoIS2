@@ -1,6 +1,7 @@
 package modelo.bean;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -20,7 +21,7 @@ import modelo.dominio.Driver;
 import org.primefaces.event.SelectEvent;
 
 @Named("queryRides")
-@SessionScoped
+@RequestScoped
 public class QueryRidesBean implements Serializable{
 	BLFacade facade = new BLFacadeImplementation();
 	private List<String> departCities;
@@ -99,11 +100,7 @@ public class QueryRidesBean implements Serializable{
 	
 	public List<String> getDepartingCities() {	//Desde db
 		try {
-			System.out.println("El valor del email es: " + this.driver.getEmail());
-			System.out.println("Se ejecuta getDepartingCities");
-			//HibernateDataAccess hda = new HibernateDataAccess();
 			this.departCities = facade.getDepartCities(this.driver.getEmail());
-			System.out.println(this.departCities);
 			return departCities;
 	}  catch (Exception e){
 		e.printStackTrace();
@@ -112,8 +109,6 @@ public class QueryRidesBean implements Serializable{
 	}
 	public List<String> getArrivalCities(String from) {	//Desde db
 		try {
-			System.out.println("Se ejecuta getArrivalCities");
-			//HibernateDataAccess hda = new HibernateDataAccess();
 			this.arrivalCities = facade.getDestinationCities(from, this.driver.getEmail());
 			return arrivalCities;
 	}  catch (Exception e){

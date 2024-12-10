@@ -197,6 +197,7 @@ public class HibernateDataAccess {
 			em.close();
 		}
 	}
+
 	
 	public void close(){
 		EntityManager em = JPAUtil.getEntityManager();

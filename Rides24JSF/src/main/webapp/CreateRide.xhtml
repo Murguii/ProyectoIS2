@@ -69,10 +69,10 @@
 			</table>
 			<p>
 				<h:commandButton value="Create ride" action="#{createRide.createRide}">
-					<p:ajax event="click" listener="#{createRide.validateForm}" value="#{createRide.validateForm} ? showMessage('Viaje creado') : showMessage('Por favor rellene el formulario correctamente')"/>
+					<p:ajax event="click" listener="#{createRide.validateForm}" update="confirmed"/>
 				</h:commandButton>
 				<h:commandButton value="Close" action="#{createRide.close}" immediate="true" />
-				<h:message id="confirmed" style="color:green"></h:message>
+				<h:outputText id="confirmed" style="color:green" value="#{createRide.mensaje}"/>
 			</p>
 		</h:form>
 	</h:body>
