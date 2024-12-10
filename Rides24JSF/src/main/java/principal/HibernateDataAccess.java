@@ -197,24 +197,7 @@ public class HibernateDataAccess {
 			em.close();
 		}
 	}
-	
-	public boolean rideCreable(Ride ride) {
-		EntityManager em = JPAUtil.getEntityManager();
-		try {
-			if(ride == em.find(Ride.class, ride.getRideNumber())) {
-				System.out.println("El viaje ya existe.");
-				return false;
-			}else {
-				System.out.println("Nuevo viaje creado.");
-				return true;
-			}
-		}catch(Exception e){
-			e.printStackTrace(); 
-			return false;
-		}finally {
-			em.close();
-		}
-	}
+
 	
 	public void close(){
 		EntityManager em = JPAUtil.getEntityManager();
