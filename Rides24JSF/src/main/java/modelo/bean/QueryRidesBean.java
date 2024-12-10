@@ -5,6 +5,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+//import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import principal.BLFacade;
@@ -16,12 +17,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.omnifaces.cdi.ViewScoped;
+
+
 import modelo.dominio.Ride;
 import modelo.dominio.Driver;
 import org.primefaces.event.SelectEvent;
 
 @Named("queryRides")
-@RequestScoped
+@ViewScoped
 public class QueryRidesBean implements Serializable{
 	BLFacade facade = new BLFacadeImplementation();
 	private List<String> departCities;
@@ -31,6 +35,10 @@ public class QueryRidesBean implements Serializable{
 	private String selectedArriveCity;
 	private Date fecha = new Date();
 	private Driver driver;
+	
+	
+	public QueryRidesBean() {}
+	
 	
 	@Inject
     private LoginBean loginBean;
@@ -88,6 +96,7 @@ public class QueryRidesBean implements Serializable{
 		System.out.println(event.getObject());
 		event.getFacesContext().addMessage("calendario",
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
+		 System.out.println("Fecha seleccionada: " + (Date) event.getObject());
 		validateDate();
 		queryRides();
 	}
@@ -119,7 +128,12 @@ public class QueryRidesBean implements Serializable{
 	public void queryRides() {
 		try {	    
 			System.out.println("Se ejecuta queryRides");
+			System.out.println("Parametros: " + selectedDepartCity + ", " + selectedArriveCity + ", " + fecha + ", " + this.driver.getEmail());
 			this.concreteRides = facade.getRides(selectedDepartCity, selectedArriveCity, fecha, this.driver.getEmail());
+			System.out.println("Rides encontrados: " + concreteRides.size());
+	        for (Ride ride : concreteRides) {
+	            System.out.println("Ride: " + ride);
+	        }
 	}  catch (Exception e){
 		e.printStackTrace();
 	}
@@ -130,7 +144,7 @@ public class QueryRidesBean implements Serializable{
 		this.arrivalCities.clear();
 		this.arrivalCities = getArrivalCities(this.selectedDepartCity);
 		this.selectedArriveCity = arrivalCities.get(0);
-		departCities = getDepartCities();
+		this.departCities = getDepartCities();
 		queryRides();
 	}
 	

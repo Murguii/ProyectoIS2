@@ -14,6 +14,10 @@ import exceptions.RideMustBeLaterThanTodayException;
 import java.io.Serializable;
 import java.util.Date;
 
+//import jakarta.faces.view.ViewScoped;
+
+
+import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.SelectEvent;
 
 import principal.BLFacade;
@@ -147,23 +151,22 @@ public class CreateRideBean implements Serializable{
 	
 	public void createRide() {
 		try {
-			 String email = loginBean.getEmail();
-			 
-			 //mensaje diciendo que se ha creado el ride
-			 if(validateForm()) {
-				 facade.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
-					 FacesContext.getCurrentInstance().addMessage("Ride creado", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje se ha creado correctamente.", null));
-					 setMensaje("Ride creado");
-			 }else {
-						 FacesContext.getCurrentInstance().addMessage("No ha sido posible crear el ride", new FacesMessage(FacesMessage.SEVERITY_INFO, "El viaje ya existe por lo que no se puede crear de nuevo.", null));
-						 setMensaje("El ride no se puede crear si no rellenas el formulario colega");
-			 }
-		} catch (Exception e){
+			String email = loginBean.getEmail();
+
+			// mensaje diciendo que se ha creado el ride
+			if (validateForm()) {
+				facade.storeRide(departCity, arrivalCity, fecha, nPlaces, price, email);
+				setMensaje("Ride creado");
+			} else {
+				FacesContext.getCurrentInstance().addMessage("No ha sido posible crear el ride", new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "El viaje ya existe por lo que no se puede crear de nuevo.", null));
+				setMensaje("El ride no se puede crear si no rellenas el formulario colega");
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-			//mensaje indicando error
+			// mensaje indicando error
 			setMensaje("ERR0R");
 		}
-		 
 
 	}
 

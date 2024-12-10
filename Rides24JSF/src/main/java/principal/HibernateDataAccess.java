@@ -108,15 +108,19 @@ public class HibernateDataAccess {
 		 EntityManager em = JPAUtil.getEntityManager();
 		try {
 			em.getTransaction().begin();
-			System.out.println("llega hasta aqui");
+	        System.out.println("llega hasta aqui");
 			TypedQuery<Ride> q = em.createQuery("SELECT r FROM Ride r JOIN r.driver d WHERE r.departCity =:f AND r.arrivalCity =:t AND r.date =:d AND d.email = :e",
 					Ride.class);
+			System.out.println("Parámetros de consulta - DepartCity: " + dc + ", ArrivalCity: " + ac + ", Date: " + d + ", DriverEmail: " + driverEmail);
 			q.setParameter("f", dc);
 			q.setParameter("t", ac);
 			q.setParameter("d", d);
 			q.setParameter("e", driverEmail);
 			List<Ride> result = q.getResultList();
-			System.out.println(result);
+			 System.out.println("Resultado de la consulta: " + result);
+		        for (Ride ride : result) {
+		            System.out.println("Ride encontrado: " + ride);
+		        }
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
