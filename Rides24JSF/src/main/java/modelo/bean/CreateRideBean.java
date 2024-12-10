@@ -113,12 +113,13 @@ public class CreateRideBean  implements Serializable{
 	
 	
 	public void onDateSelect(SelectEvent event) {
-		System.out.println(event.getObject());
+		//System.out.println(event.getObject());
 		event.getFacesContext().addMessage("calendario",
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
 		/*FacesContext.getCurrentInstance().addMessage("calendario",
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
 				 */
+		validateDate();
 		} 
 	
 	public boolean validateForm() {
