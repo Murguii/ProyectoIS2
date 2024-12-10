@@ -5,7 +5,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
-//import jakarta.faces.view.ViewScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import principal.BLFacade;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.omnifaces.cdi.ViewScoped;
+//import org.omnifaces.cdi.ViewScoped;
 
 
 import modelo.dominio.Ride;

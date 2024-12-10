@@ -14,10 +14,10 @@ import exceptions.RideMustBeLaterThanTodayException;
 import java.io.Serializable;
 import java.util.Date;
 
-//import jakarta.faces.view.ViewScoped;
+import jakarta.faces.view.ViewScoped;
 
 
-import org.omnifaces.cdi.ViewScoped;
+//import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.SelectEvent;
 
 import principal.BLFacade;
@@ -26,7 +26,7 @@ import principal.HibernateDataAccess;
 import modelo.dominio.*;
 
 @Named("createRide")
-@SessionScoped
+@ViewScoped
 public class CreateRideBean implements Serializable{
 	
 	private String departCity;
