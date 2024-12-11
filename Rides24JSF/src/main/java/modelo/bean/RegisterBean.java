@@ -1,6 +1,8 @@
 package modelo.bean;
 import java.io.Serializable;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import modelo.dominio.Driver;
 import principal.BLFacade;
@@ -39,22 +41,38 @@ public class RegisterBean implements Serializable{
 	}
 	
 	public String doRegister() {
-		Driver d = facade.getDriver(email, password);
-		if (d==null) {
-			try {
-				System.out.println("Entra aqui");
-				facade.storeDriver(email, name, password);
-				System.out.println("Sale aqui");
-				return "ok";
-			} catch(Exception e) {
-				//mensaje de error
-				return "error";
+		if(validateEmail(email)) {
+			Driver d = facade.getDriver(email, password);
+			if (d==null) {
+				try {
+					facade.storeDriver(email, name, password);
+					return "ok";
+				} catch(Exception e) {
+					FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", "Error durante el registro, inténtelo de nuevo");
+			        FacesContext.getCurrentInstance().addMessage(null, message);	
+			        return "error";
+				}
+			}
+			else {
+				FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", "Ya existe un usuario con ese correo electrónico");
+		        FacesContext.getCurrentInstance().addMessage(null, message);			
+		        return "error";
 			}
 		}
 		else {
-			//mensaje de error diciendo que ya existe un usuario con esos datos
-			return "error";
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", "Introduce un formato de correo electrónico válido");
+	        FacesContext.getCurrentInstance().addMessage(null, message);
+	        return "error";
 		}
+		
+		
+	}
+	
+	public boolean validateEmail(String email) {
+		if (email == null || email.isEmpty() || (email.indexOf("@") < 1)  ) {
+            return false;
+        }
+		else return true;
 		
 	}
 	

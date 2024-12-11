@@ -1,6 +1,8 @@
 package modelo.bean;
 import java.io.Serializable;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import modelo.dominio.Driver;
 import principal.BLFacade;
@@ -36,8 +38,8 @@ public class LoginBean implements Serializable{
 			return "ok";
 		}
 		else {
-			//mensaje de error de que no existe usuario con esos datos
-			
+	        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", "El nombre de usuario y contraseña no coinciden");
+	        FacesContext.getCurrentInstance().addMessage(null, message);
 			return "error";
 		}
 		
