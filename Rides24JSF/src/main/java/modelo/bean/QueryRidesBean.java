@@ -27,7 +27,7 @@ import org.primefaces.event.SelectEvent;
 @Named("queryRides")
 @ViewScoped
 public class QueryRidesBean implements Serializable{
-	BLFacade facade = new BLFacadeImplementation();
+	BLFacade facade = BLFacadeImplementation.getInstance() ;
 	private List<String> departCities;
 	private List<String> arrivalCities;
 	private List<Ride> concreteRides = new ArrayList<Ride>();
@@ -93,10 +93,8 @@ public class QueryRidesBean implements Serializable{
 		this.concreteRides = concreteRides;
 	}
 	public void onDateSelect(SelectEvent event) {
-		System.out.println(event.getObject());
 		event.getFacesContext().addMessage("calendario",
 				 new FacesMessage("Fecha escogida: "+event.getObject()));
-		 System.out.println("Fecha seleccionada: " + (Date) event.getObject());
 		validateDate();
 		queryRides();
 	}
@@ -127,20 +125,12 @@ public class QueryRidesBean implements Serializable{
 	}
 	public void queryRides() {
 		try {	    
-			System.out.println("Se ejecuta queryRides");
-			System.out.println("Parametros: " + selectedDepartCity + ", " + selectedArriveCity + ", " + fecha + ", " + this.driver.getEmail());
 			this.concreteRides = facade.getRides(selectedDepartCity, selectedArriveCity, fecha, this.driver.getEmail());
-			System.out.println("Rides encontrados: " + concreteRides.size());
-	        for (Ride ride : concreteRides) {
-	            System.out.println("Ride: " + ride);
-	        }
 	}  catch (Exception e){
 		e.printStackTrace();
 	}
 	}
 	public void onChange() {		//Se ejecutara cuando se escoja un departCity
-		System.out.println("Se ejecuta onChange");
-		System.out.println("nuevo valor de departCity: " + this.getSelectedDepartCity());
 		this.arrivalCities.clear();
 		this.arrivalCities = getArrivalCities(this.selectedDepartCity);
 		this.selectedArriveCity = arrivalCities.get(0);
@@ -149,7 +139,6 @@ public class QueryRidesBean implements Serializable{
 	}
 	
 	public void dateSelectQueryRides(SelectEvent event) {
-		System.out.print("Se ejecuta calendario");
 		onDateSelect(event);
 		queryRides();
 	}

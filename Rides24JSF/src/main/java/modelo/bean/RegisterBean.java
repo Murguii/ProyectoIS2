@@ -18,7 +18,7 @@ public class RegisterBean implements Serializable{
 	private String name;
 	private String email;
 	private String password;
-	BLFacade facade = new BLFacadeImplementation();
+	BLFacade facade = BLFacadeImplementation.getInstance() ;
 	
 	public String getName() {
 		return name;

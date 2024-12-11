@@ -10,12 +10,12 @@ import modelo.dominio.Ride;
 
 public class BLFacadeImplementation implements BLFacade{
 	
+	private static BLFacadeImplementation instance;
+	
 	HibernateDataAccess dbManager;
 
 	public BLFacadeImplementation()  {		
 		System.out.println("Creating BLFacadeImplementation instance");
-		
-		
 		    dbManager=new HibernateDataAccess();
 		    
 		//dbManager.close();
@@ -28,6 +28,17 @@ public class BLFacadeImplementation implements BLFacade{
 		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");		
 		dbManager=da;		
 	}
+    
+    public static BLFacadeImplementation getInstance() {
+        if (instance == null) {
+            synchronized (BLFacadeImplementation.class) {
+                if (instance == null) {
+                    instance = new BLFacadeImplementation();
+                }
+            }
+        }
+        return instance;
+    }
     
     
     /**

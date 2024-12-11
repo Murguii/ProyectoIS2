@@ -17,7 +17,7 @@ public class LoginBean implements Serializable{
 
 	private String email;
 	private String password;
-	BLFacade facade = new BLFacadeImplementation();
+	BLFacade facade = BLFacadeImplementation.getInstance() ;
 		
 	public String getEmail() {
 		return email;

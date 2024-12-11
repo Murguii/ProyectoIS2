@@ -37,7 +37,7 @@ public class CreateRideBean implements Serializable{
 	private Driver driver;
 	private String error = null;
 	private String mensaje = null;
-	BLFacade facade = new BLFacadeImplementation();
+	BLFacade facade = BLFacadeImplementation.getInstance() ;
 	
 	@Inject
     private LoginBean loginBean;
@@ -119,12 +119,7 @@ public class CreateRideBean implements Serializable{
 	
 	
 	public void onDateSelect(SelectEvent event) {
-		//System.out.println(event.getObject());
-		event.getFacesContext().addMessage("calendario",
-				 new FacesMessage("Fecha escogida: "+event.getObject()));
-		/*FacesContext.getCurrentInstance().addMessage("calendario",
-				 new FacesMessage("Fecha escogida: "+event.getObject()));
-				 */
+		event.getFacesContext().addMessage("calendario", new FacesMessage("Fecha escogida: "+event.getObject()));
 		validateDate();
 
 		} 
